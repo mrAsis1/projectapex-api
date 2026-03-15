@@ -1,1 +1,30 @@
-{}
+{
+    "user": {
+        "id": "86fb818d-9e92-5942-a62a-b31717e7a536",
+        "fullName": "Standard User",
+        "hash": "$2b$12$NGYDpVjAZTNuTagTWf/33uLbWmg9R/e8dI6LZcKlyJOhUuNXLu8GS",
+        "userLevel": 0,
+        "createdAt": 1773546892
+    },
+    "moderator": {
+        "id": "45631eaa-f563-5dfa-a8b0-4cae1f5e75a2",
+        "fullName": "Moderator User",
+        "hash": "$2b$12$6Rfmct/0Z5Jo5CtSzWcCfe0NVx8/7HPv/ELybZMw8JlTsioC8J/BW",
+        "userLevel": 1,
+        "createdAt": 1773546924
+    },
+    "admin": {
+        "id": "ae6c10d0-0b13-554c-b976-a05d8a18f0cc",
+        "fullName": "Admin User",
+        "hash": "$2b$12$kAIRJ/.qO2uPGACg403h2.YQbegczU/0f9EESYkPgneMr8ySCbpcy",
+        "userLevel": 2,
+        "createdAt": 1773546982
+    },
+    "super": {
+        "id": "9cfeca94-9e8f-5ed8-8f9a-721832c351ed",
+        "fullName": "Super User",
+        "hash": "$2b$12$ZNxaBWopQ2Dqs7BIaUIl0.C2c4LvfnjWKJ7bc34r1psyC3KrItwMK",
+        "userLevel": 3,
+        "createdAt": 1773546999
+    }
+}
