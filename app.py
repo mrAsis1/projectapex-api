@@ -5,7 +5,6 @@
 
 import json
 import hashlib
-import os
 from datetime import datetime
 
 import bcrypt
@@ -49,6 +48,7 @@ def authorize():
 
 @app.route("/get_contents", methods=["GET"])
 def get_contents():
+
     payload = request.args
     uname = payload.get("username", "")
     user_level = payload.get("userLevel", -1)
@@ -64,12 +64,7 @@ def get_contents():
     if not (0 <= user_level <= 4) or access_token != expected_token:
         return set_cors({"message": "401: Unauthorized"}), 401
 
-    try:
-        contents_data = load_contents()
-        return set_cors(contents_data)
-    except Exception as e:
-        print(f"Error loading contents: {e}")
-        return set_cors({"message": "Error loading contents", "error": str(e)}), 500
+    return set_cors({"contents": load_contents()})
 
 
 @app.errorhandler(404)
@@ -84,22 +79,20 @@ def page_not_found(e):
 def authorize_user(uname, pw):
     """ Authenticate user login. """
 
-    try:
-        with open("data/mock-account-tbl.json") as file:
-            accounts = json.load(file)
+    # Use actual No/SQL in real projects.
+    with open("data/mock-account-tbl.json") as file:
+        accounts = json.load(file)
 
-            if uname not in accounts:
-                return -1, ""
+        if uname not in accounts:
+            return -1, ""
 
-            account = accounts[uname]
-            hashed = account["hash"].encode()
+        account = accounts[uname]
+        hashed = account["hash"].encode()
 
-            if bcrypt.hashpw(pw.encode(), hashed):
-                user_level = account["userLevel"]
-                full_name = account["fullName"]
-                return user_level, full_name
-    except Exception as e:
-        print(f"Error in authorize_user: {e}")
+        if bcrypt.hashpw(pw.encode(), hashed):
+            user_level = account["userLevel"]
+            full_name = account["fullName"]
+            return user_level, full_name
 
     return -1, ""
 
@@ -107,30 +100,19 @@ def authorize_user(uname, pw):
 def generate_access_token(uname, user_level):
     """ Create a session token. """
 
+    # Use standard approaches (like JWT) in your future projects.
     today = datetime.now().strftime("%Y-%m")
     message = (uname + str(user_level) + today).encode()
+
     return hashlib.sha1(message).hexdigest()
 
 
 def load_contents():
     """ Load all contents. """
-    try:
-        file_path = "data/mock-content-tbl.json"
-        print(f"Loading from: {file_path}")
-        
-        with open(file_path, "r") as file:
-            data = json.load(file)
-            print(f"Successfully loaded content")
-            return data
-    except FileNotFoundError as e:
-        print(f"File not found error: {e}")
-        return {"contents": []}
-    except json.JSONDecodeError as e:
-        print(f"JSON decode error: {e}")
-        return {"contents": []}
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-        return {"contents": []}
+
+    # Use actual No/SQL in real projects.
+    with open("data/mock-content-tbl.json") as file:
+        return json.load(file)
 
 
 def set_cors(payload):
@@ -139,7 +121,3 @@ def set_cors(payload):
     response = jsonify(payload)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
